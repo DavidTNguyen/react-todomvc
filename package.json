@@ -29,6 +29,7 @@
     "start": "webpack-dev-server --config webpack.config.dev.js",
     "build": "webpack --config webpack.config.prod.js",
     "serve": "http-server ./build -o --silent",
-    "clear": "rimraf build"
+    "clear": "rimraf build",
+    "deploy": "gh-pages --dist build --message \"Deploy.\""
   }
 }

@@ -33,14 +33,9 @@ class TodoItemList extends Component {
     const { todos, nowShowing, toggle, destroy, update } = this.props;
 
     const shownTodos = todos.filter((todo) => {
-      switch (nowShowing) {
-        case 'active':
-          return todo.get('completed') === false;
-        case 'completed':
-          return todo.get('completed') === true;
-        default:
-          return true;
-      }
+      if (nowShowing === 'all') return todo;
+      if (nowShowing === 'active') return todo.get('completed') === false;
+      if (nowShowing === 'completed') return todo.get('completed') === true;
     });
 
     let id;
@@ -51,7 +46,7 @@ class TodoItemList extends Component {
           key={id}
           id={id}
           todo={todo}
-          editing={parseInt(editing) === id}
+          editing={editing === id}
           edit={edit}
           toggle={toggle}
           destroy={destroy}

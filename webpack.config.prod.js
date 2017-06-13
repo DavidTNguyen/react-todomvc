@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const cssnano = require('cssnano');
 const Babili = require('babili-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -14,6 +15,26 @@ module.exports = {
   devtool: 'source-map',
   module: {
     rules: [
+      {
+        test: /\.css?$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [
+                cssnano({
+                  discardComments: {
+                    removeAll: true
+                  }
+                })
+              ]
+            }
+          }
+        ]
+      },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -35,7 +56,6 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: 'source/index.html', to: '../index.html' },
-      { from: 'source/css', to: '../css' },
       { from: 'source/favicon.ico', to: '../favicon.ico' }
     ])
   ]

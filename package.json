@@ -19,8 +19,12 @@
     "babel-preset-react": "^6.24.1",
     "babili-webpack-plugin": "^0.1.1",
     "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.28.4",
+    "cssnano": "^3.10.0",
     "http-server": "^0.10.0",
+    "postcss-loader": "^2.0.5",
     "rimraf": "^2.6.1",
+    "style-loader": "^0.18.2",
     "webpack": "^2.6.1",
     "webpack-dev-server": "^2.4.5"
   },

@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import TodoEditForm from './TodoEditForm.jsx';
 
-class TodoItem extends Component {
+class TodoItem extends PureComponent {
   constructor (props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
@@ -20,21 +20,13 @@ class TodoItem extends Component {
   handleDoubleClick (event) {
     this.props.edit(event);
   }
-  // submit () {
-  //   const text = this.state.editText.trim();
-  //   if (text) {
-  //     this.props.save(text);
-  //     this.setState(({editText}) => ({
-  //       editText: text
-  //     }));
-  //   }
-  // }
   render () {
     const { handleChange, handleDoubleClick, handleClick } = this;
-    const { id, todo, edit, editing, update, cancel } = this.props;
+    const { todo, edit, editing, update, cancel } = this.props;
 
-    const completed = todo.get('completed');
+    const id = todo.get('id');
     const title = todo.get('title');
+    const completed = todo.get('completed');
 
     return (
       <li className={classNames({
@@ -79,7 +71,6 @@ TodoItem.propTypes = {
   edit: PropTypes.func.isRequired,
   todo: PropTypes.object.isRequired,
   editing: PropTypes.any,
-  id: PropTypes.number.isRequired,
   update: PropTypes.func.isRequired,
   cancel: PropTypes.func.isRequired
 };

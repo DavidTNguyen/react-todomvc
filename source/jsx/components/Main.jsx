@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
 
 import TodoItemList from './TodoItemList.jsx';
 
-class Main extends Component {
+class Main extends PureComponent {
   constructor (props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
@@ -14,7 +14,10 @@ class Main extends Component {
   }
   render () {
     const { handleChange } = this;
-    const { todos, todoCount, activeTodoCount, nowShowing, toggle, destroy, update } = this.props;
+    const { todos, nowShowing, toggle, destroy, update } = this.props;
+
+    const todoCount = todos.size;
+    const activeTodoCount = todos.count(todo => todo.get('completed') === false);
 
     if (todoCount > 0) {
       return (
@@ -41,12 +44,10 @@ class Main extends Component {
 }
 
 Main.propTypes = {
-  toggleAll: PropTypes.func.isRequired,
   todos: PropTypes.instanceOf(List).isRequired,
-  todoCount: PropTypes.number.isRequired,
-  activeTodoCount: PropTypes.number.isRequired,
   nowShowing: PropTypes.string.isRequired,
   toggle: PropTypes.func.isRequired,
+  toggleAll: PropTypes.func.isRequired,
   destroy: PropTypes.func.isRequired,
   update: PropTypes.func.isRequired
 };

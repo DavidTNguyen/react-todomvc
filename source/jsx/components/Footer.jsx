@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { List } from 'immutable';
 import classNames from 'classnames';
 
 import ClearButton from './ClearButton.jsx';
 
-class Footer extends Component {
+class Footer extends PureComponent {
   render () {
-    const { activeTodoCount, completedTodoCount, nowShowing, clearCompleted } = this.props;
+    const { todos, nowShowing, clearCompleted } = this.props;
+
+    const activeTodoCount = todos.count(todo => todo.get('completed') === false);
+    const completedTodoCount = todos.count(todo => todo.get('completed') === true);
 
     const pluralize = (count, word) => count === 1 ? word : word + 's';
     const activeTodoWord = pluralize(activeTodoCount, 'item');
@@ -58,8 +62,7 @@ class Footer extends Component {
 }
 
 Footer.propTypes = {
-  activeTodoCount: PropTypes.number.isRequired,
-  completedTodoCount: PropTypes.number.isRequired,
+  todos: PropTypes.instanceOf(List).isRequired,
   nowShowing: PropTypes.string.isRequired,
   clearCompleted: PropTypes.func.isRequired
 };

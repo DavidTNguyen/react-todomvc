@@ -6,6 +6,20 @@ import Header from './Header.jsx';
 import Main from './Main.jsx';
 import Footer from './Footer.jsx';
 
+const uuid = () => {
+  let i;
+  let random;
+  let id = '';
+
+  for (i = 0; i < 32; i++) {
+    random = Math.random() * 16 | 0;
+    if (i === 8 || i === 12 || i === 16 || i === 20) id += '-';
+    id += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random)).toString(16);
+  }
+
+  return id;
+};
+
 class App extends Component {
   constructor (props) {
     super(props);
@@ -21,16 +35,19 @@ class App extends Component {
     };
   }
   add (todo) {
-    const id = this.state.todos.size;
+    const id = uuid();
 
-    this.setState(({todos}) => ({todos: todos.push(Map({
+    const newTodo = Map({
       id: id,
       title: todo,
       completed: false
-    }))}));
+    });
+
+    this.setState(({todos}) => ({todos: todos.push(newTodo)}));
   }
   toggle (event) {
-    const index = event.target.id;
+    const id = event.target.id;
+    const index = this.state.todos.findIndex((todo) => todo.get('id') === id);
 
     this.setState(({todos}) => ({
       todos: todos.update(index, todo => todo.update('completed', completed => !completed))
@@ -50,23 +67,24 @@ class App extends Component {
     }
   }
   destroy (event) {
-    const index = event.target.id;
+    const id = event.target.id;
+    const index = this.state.todos.findIndex((todo) => todo.get('id') === id);
 
     this.setState(({todos}) => ({
       todos: todos.delete(index)
     }));
   }
   clearCompleted () {
-    const completedTodos = this.state.todos.filter((todo) => {
-      if (todo.get('completed') === false) return todo;
-    });
+    const activeTodos = this.state.todos.filter((todo) => (
+      todo.get('completed') === false
+    ));
 
     this.setState(({todos}) => ({
-      todos: completedTodos
+      todos: activeTodos
     }));
   }
   update (id, title) {
-    const index = id;
+    const index = this.state.todos.findIndex((todo) => todo.get('id') === id);
     const updatedTitle = title;
 
     this.setState(({todos}) => ({
@@ -92,13 +110,6 @@ class App extends Component {
     const { add, toggle, toggleAll, destroy, clearCompleted, update } = this;
     const { todos, nowShowing } = this.state;
 
-    const activeTodoCount = todos.reduce((accumulator, todo) => (
-      todo.get('completed') ? accumulator : accumulator + 1
-    ), 0);
-
-    const todoCount = todos.size;
-    const completedTodoCount = todoCount - activeTodoCount;
-
     return (
       <div className='todoapp'>
         <Header
@@ -106,8 +117,6 @@ class App extends Component {
         />
         <Main
           todos={todos}
-          todoCount={todoCount}
-          activeTodoCount={activeTodoCount}
           nowShowing={nowShowing}
           toggle={toggle}
           toggleAll={toggleAll}
@@ -115,8 +124,7 @@ class App extends Component {
           update={update}
         />
         <Footer
-          activeTodoCount={activeTodoCount}
-          completedTodoCount={completedTodoCount}
+          todos={todos}
           nowShowing={nowShowing}
           clearCompleted={clearCompleted}
         />

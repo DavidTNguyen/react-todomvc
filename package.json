@@ -17,7 +17,6 @@
     "babel-core": "^6.25.0",
     "babel-loader": "^7.0.0",
     "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-3": "^6.24.1",
     "babili-webpack-plugin": "^0.1.1",
     "copy-webpack-plugin": "^4.0.1",
     "http-server": "^0.10.0",
@@ -26,7 +25,7 @@
     "webpack-dev-server": "^2.4.5"
   },
   "scripts": {
-    "start": "webpack-dev-server --config webpack.config.dev.js",
+    "start": "webpack-dev-server --config webpack.config.dev.js --open",
     "build": "webpack --config webpack.config.prod.js",
     "serve": "http-server ./build -o --silent",
     "clear": "rimraf build",

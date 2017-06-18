@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const cssnano = require('cssnano');
-const Babili = require('babili-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
@@ -9,8 +8,8 @@ module.exports = {
     './source/jsx/index.jsx'
   ],
   output: {
-    filename: 'bundle.js',
-    path: path.join(__dirname, 'build', 'js')
+    filename: './js/bundle.js',
+    path: path.join(__dirname, 'build')
   },
   devtool: 'source-map',
   module: {
@@ -20,6 +19,12 @@ module.exports = {
         use: [
           {
             loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1
+            }
           },
           {
             loader: 'postcss-loader',
@@ -40,7 +45,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['react']
+          presets: ['es2015', 'stage-0', 'react']
         }
       }
     ]
@@ -51,12 +56,15 @@ module.exports = {
         NODE_ENV: JSON.stringify('production')
       }
     }),
-    new Babili({}, {
-      comments: false
+    new webpack.optimize.UglifyJsPlugin({
+      comments: false,
+      sourceMap: true
     }),
     new CopyWebpackPlugin([
-      { from: 'source/index.html', to: '../index.html' },
-      { from: 'source/favicon.ico', to: '../favicon.ico' }
+      { from: 'source/index.html', to: './index.html' },
+      { from: 'source/404.html', to: './404.html' },
+      { from: 'source/favicon.ico', to: './favicon.ico' },
+      { from: 'source/screenshot.png', to: './screenshot.png' }
     ])
   ]
 };

@@ -2,23 +2,20 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 class ClearButton extends PureComponent {
-  constructor (props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-  handleClick () {
-    this.props.clearCompleted();
-  }
+  static propTypes = {
+    completedTodoCount: PropTypes.number.isRequired,
+    onClear: PropTypes.func.isRequired
+  };
+  handleClick = () => {
+    this.props.onClear();
+  };
   render () {
     const { handleClick } = this;
     const { completedTodoCount } = this.props;
 
     if (completedTodoCount > 0) {
       return (
-        <button
-          className='clear-completed'
-          onClick={handleClick}
-        >
+        <button className='clear-completed' onClick={handleClick}>
           Clear completed
         </button>
       );
@@ -27,10 +24,5 @@ class ClearButton extends PureComponent {
     }
   }
 }
-
-ClearButton.propTypes = {
-  completedTodoCount: PropTypes.number.isRequired,
-  clearCompleted: PropTypes.func.isRequired
-};
 
 export default ClearButton;

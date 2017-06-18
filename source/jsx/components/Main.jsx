@@ -5,16 +5,16 @@ import { List } from 'immutable';
 import TodoItemList from './TodoItemList.jsx';
 
 class Main extends PureComponent {
-  constructor (props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-  }
-  handleChange (event) {
-    this.props.toggleAll(event);
-  }
+  static propTypes = {
+    onToggleAll: PropTypes.func.isRequired,
+    todos: PropTypes.instanceOf(List).isRequired
+  };
+  handleChange = (event) => {
+    this.props.onToggleAll(event);
+  };
   render () {
-    const { handleChange } = this;
-    const { todos, nowShowing, toggle, destroy, update } = this.props;
+    const { handleChange, props } = this;
+    const { todos } = this.props;
 
     const todoCount = todos.size;
     const activeTodoCount = todos.count(todo => todo.get('completed') === false);
@@ -28,13 +28,7 @@ class Main extends PureComponent {
             checked={activeTodoCount === 0}
             onChange={handleChange}
           />
-          <TodoItemList
-            todos={todos}
-            nowShowing={nowShowing}
-            toggle={toggle}
-            destroy={destroy}
-            update={update}
-          />
+          <TodoItemList {...props} />
         </section>
       );
     } else {
@@ -42,14 +36,5 @@ class Main extends PureComponent {
     }
   }
 }
-
-Main.propTypes = {
-  todos: PropTypes.instanceOf(List).isRequired,
-  nowShowing: PropTypes.string.isRequired,
-  toggle: PropTypes.func.isRequired,
-  toggleAll: PropTypes.func.isRequired,
-  destroy: PropTypes.func.isRequired,
-  update: PropTypes.func.isRequired
-};
 
 export default Main;

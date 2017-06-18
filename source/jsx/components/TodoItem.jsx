@@ -5,24 +5,25 @@ import classNames from 'classnames';
 import TodoEditForm from './TodoEditForm.jsx';
 
 class TodoItem extends PureComponent {
-  constructor (props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleDoubleClick = this.handleDoubleClick.bind(this);
-  }
-  handleChange (event) {
-    this.props.toggle(event);
-  }
-  handleClick (event) {
-    this.props.destroy(event);
-  }
-  handleDoubleClick (event) {
-    this.props.edit(event);
-  }
+  static propTypes = {
+    onToggle: PropTypes.func.isRequired,
+    onDestroy: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    todo: PropTypes.object.isRequired,
+    editing: PropTypes.any
+  };
+  handleChange = (event) => {
+    this.props.onToggle(event);
+  };
+  handleClick = (event) => {
+    this.props.onDestroy(event);
+  };
+  handleDoubleClick = (event) => {
+    this.props.onEdit(event);
+  };
   render () {
-    const { handleChange, handleDoubleClick, handleClick } = this;
-    const { todo, edit, editing, update, cancel } = this.props;
+    const { handleChange, handleDoubleClick, handleClick, props } = this;
+    const { todo, editing } = this.props;
 
     const id = todo.get('id');
     const title = todo.get('title');
@@ -53,26 +54,10 @@ class TodoItem extends PureComponent {
             onClick={handleClick}
           />
         </div>
-        <TodoEditForm
-          todo={todo}
-          edit={edit}
-          editing={editing}
-          update={update}
-          cancel={cancel}
-        />
+        <TodoEditForm {...props} />
       </li>
     );
   }
 }
-
-TodoItem.propTypes = {
-  toggle: PropTypes.func.isRequired,
-  destroy: PropTypes.func.isRequired,
-  edit: PropTypes.func.isRequired,
-  todo: PropTypes.object.isRequired,
-  editing: PropTypes.any,
-  update: PropTypes.func.isRequired,
-  cancel: PropTypes.func.isRequired
-};
 
 export default TodoItem;

@@ -2,22 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class TodoForm extends Component {
-  constructor (props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = { todo: '' };
-  }
-  handleChange (event) {
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired
+  };
+  state = { todo: '' };
+  handleChange = (event) => {
     const todo = event.target.value;
 
     this.setState({ todo: todo });
-  }
-  handleSubmit (event) {
+  };
+  handleSubmit = (event) => {
     event.preventDefault();
-    this.props.add(this.state.todo);
+    this.props.onSubmit(this.state.todo);
     this.setState({ todo: '' });
-  }
+  };
   render () {
     const { handleSubmit, handleChange } = this;
     const { todo } = this.state;
@@ -36,9 +34,5 @@ class TodoForm extends Component {
     );
   }
 }
-
-TodoForm.propTypes = {
-  add: PropTypes.func.isRequired
-};
 
 export default TodoForm;

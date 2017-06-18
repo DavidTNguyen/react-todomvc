@@ -5,13 +5,12 @@ import { List } from 'immutable';
 import TodoItem from './TodoItem.jsx';
 
 class TodoItemList extends Component {
-  constructor (props) {
-    super(props);
-    this.edit = this.edit.bind(this);
-    this.cancel = this.cancel.bind(this);
-    this.state = { editing: null };
-  }
-  edit (event) {
+  static propTypes = {
+    todos: PropTypes.instanceOf(List).isRequired,
+    active: PropTypes.string.isRequired
+  };
+  state = { editing: null };
+  onEdit = (event) => {
     const id = event.target.id;
 
     if (id === this.state.editing) {
@@ -19,23 +18,23 @@ class TodoItemList extends Component {
     } else {
       this.setState({ editing: id });
     }
-  }
-  cancel (event) {
+  };
+  onCancel = (event) => {
     const escape = 27;
 
     if (event.which === escape) {
       this.setState({ editing: null });
     }
-  }
+  };
   render () {
-    const { edit, cancel } = this;
+    const { onEdit, onCancel, props } = this;
     const { editing } = this.state;
-    const { todos, nowShowing, toggle, destroy, update } = this.props;
+    const { todos, active } = this.props;
 
     const shownTodos = todos.filter((todo) => {
-      if (nowShowing === 'all') return todo;
-      if (nowShowing === 'active') return todo.get('completed') === false;
-      if (nowShowing === 'completed') return todo.get('completed') === true;
+      if (active === 'all') return todo;
+      if (active === 'active') return todo.get('completed') === false;
+      if (active === 'completed') return todo.get('completed') === true;
     });
 
     let id;
@@ -47,11 +46,9 @@ class TodoItemList extends Component {
           id={id}
           todo={todo}
           editing={editing === id}
-          edit={edit}
-          toggle={toggle}
-          destroy={destroy}
-          update={update}
-          cancel={cancel}
+          onEdit={onEdit}
+          onCancel={onCancel}
+          {...props}
         />
       );
     });
@@ -63,13 +60,5 @@ class TodoItemList extends Component {
     );
   }
 }
-
-TodoItemList.propTypes = {
-  todos: PropTypes.instanceOf(List).isRequired,
-  nowShowing: PropTypes.string.isRequired,
-  toggle: PropTypes.func.isRequired,
-  destroy: PropTypes.func.isRequired,
-  update: PropTypes.func.isRequired
-};
 
 export default TodoItemList;

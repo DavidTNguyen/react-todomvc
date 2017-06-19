@@ -25,7 +25,7 @@ class TodoItem extends PureComponent {
     const { handleChange, handleDoubleClick, handleClick, props } = this;
     const { todo, editing } = this.props;
 
-    const id = todo.get('id');
+    const key = todo.get('key');
     const title = todo.get('title');
     const completed = todo.get('completed');
 
@@ -36,20 +36,20 @@ class TodoItem extends PureComponent {
       })}>
         <div className='view'>
           <input
-            id={id}
+            id={key}
             className='toggle'
             type='checkbox'
             checked={completed}
             onChange={handleChange}
           />
           <label
-            id={id}
+            id={key}
             onDoubleClick={handleDoubleClick}
           >
             {title}
           </label>
           <button
-            id={id}
+            id={key}
             className='destroy'
             onClick={handleClick}
           />

@@ -5,20 +5,20 @@ class TodoForm extends Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired
   };
-  state = { todo: '' };
+  state = { title: '' };
   handleChange = (event) => {
-    const todo = event.target.value;
+    const title = event.target.value;
 
-    this.setState({ todo: todo });
+    this.setState({ title: title });
   };
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(this.state.todo);
-    this.setState({ todo: '' });
+    this.props.onSubmit(this.state.title);
+    this.setState({ title: '' });
   };
   render () {
     const { handleSubmit, handleChange } = this;
-    const { todo } = this.state;
+    const { title } = this.state;
 
     return (
       <form onSubmit={handleSubmit}>
@@ -26,7 +26,7 @@ class TodoForm extends Component {
           className='new-todo'
           type='text'
           placeholder='What needs to be done?'
-          value={todo}
+          value={title}
           onChange={handleChange}
           autoFocus
         />

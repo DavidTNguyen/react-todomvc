@@ -11,22 +11,22 @@ class TodoEditForm extends Component {
     onCancel: PropTypes.func.isRequired
   };
   state = {
-    id: this.props.todo.get('id'),
+    key: this.props.todo.get('key'),
     title: this.props.todo.get('title')
   };
   handleChange = (event) => {
-    const changedTitle = event.target.value;
+    const newTitle = event.target.value;
 
     this.setState(({title}) => ({
-      title: changedTitle
+      title: newTitle
     }));
   };
   handleSubmit = (event) => {
-    const id = this.state.id;
+    const key = this.state.key;
     const title = this.state.title;
 
     event.preventDefault();
-    this.props.onUpdate(id, title);
+    this.props.onUpdate(key, title);
     this.props.onEdit(event);
   };
   handleKeyDown = (event) => {

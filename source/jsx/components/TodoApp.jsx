@@ -18,20 +18,20 @@ class TodoApp extends Component {
     todos: fromJS(JSON.parse(window.localStorage.getItem('react-todomvc'))) || List([]),
     active: this.props.active
   };
-  onSubmit = (todo) => {
-    const id = uuid();
+  onSubmit = (title) => {
+    const key = uuid();
 
     const newTodo = Map({
-      id: id,
-      title: todo,
+      key: key,
+      title: title,
       completed: false
     });
 
-    this.setState(({todos}) => ({todos: todos.push(newTodo)}));
+    this.setState(({todos}) => ({todos: todos.push(fromJS(newTodo))}));
   };
   onToggle = (event) => {
-    const id = event.target.id;
-    const index = this.state.todos.findIndex((todo) => todo.get('id') === id);
+    const key = event.target.key;
+    const index = this.state.todos.findIndex((todo) => todo.get('key') === key);
 
     this.setState(({todos}) => ({
       todos: todos.update(index, todo => todo.update('completed', completed => !completed))
@@ -51,8 +51,8 @@ class TodoApp extends Component {
     }
   };
   onDestroy = (event) => {
-    const id = event.target.id;
-    const index = this.state.todos.findIndex((todo) => todo.get('id') === id);
+    const key = event.target.key;
+    const index = this.state.todos.findIndex((todo) => todo.get('key') === key);
 
     this.setState(({todos}) => ({
       todos: todos.delete(index)
@@ -67,8 +67,8 @@ class TodoApp extends Component {
       todos: activeTodos
     }));
   };
-  onUpdate = (id, title) => {
-    const index = this.state.todos.findIndex((todo) => todo.get('id') === id);
+  onUpdate = (key, title) => {
+    const index = this.state.todos.findIndex((todo) => todo.get('key') === key);
     const updatedTitle = title;
 
     this.setState(({todos}) => ({

@@ -37,15 +37,14 @@ class TodoItemList extends Component {
       if (active === 'completed') return todo.get('completed') === true;
     });
 
-    let id;
+    let key;
     const todoItems = shownTodos.map((todo) => {
-      id = todo.get('id');
+      key = todo.get('key');
       return (
         <TodoItem
-          key={id}
-          id={id}
+          key={key}
           todo={todo}
-          editing={editing === id}
+          editing={editing === key}
           onEdit={onEdit}
           onCancel={onCancel}
           {...props}

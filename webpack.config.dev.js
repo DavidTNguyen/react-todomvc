@@ -1,9 +1,8 @@
+const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: [
-    './source/jsx/index.jsx'
-  ],
+  entry: [path.join(__dirname, 'source', 'jsx', 'index.jsx')],
   output: {
     filename: 'bundle.js',
     publicPath: '/js/'
@@ -43,6 +42,6 @@ module.exports = {
     host: 'localhost',
     port: 8080,
     historyApiFallback: true,
-    contentBase: ['source']
+    contentBase: [path.join(__dirname, 'source')]
   }
 };

@@ -4,9 +4,7 @@ const cssnano = require('cssnano');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: [
-    './source/jsx/index.jsx'
-  ],
+  entry: [path.join(__dirname, 'source', 'jsx', 'index.jsx')],
   output: {
     filename: './js/bundle.js',
     path: path.join(__dirname, 'build')

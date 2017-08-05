@@ -30,13 +30,13 @@ class TodoForm extends Component {
     return (
       <form
         className={newTodo}
-        onSubmit={handleSubmit}
+        onSubmit={(event) => handleSubmit(event)}
       >
         <input
           type='text'
           placeholder='What needs to be done?'
           value={title}
-          onChange={handleChange}
+          onChange={(event) => handleChange(event)}
           autoFocus
         />
       </form>

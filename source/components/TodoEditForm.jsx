@@ -35,7 +35,7 @@ class TodoEditForm extends Component {
     this.props.editTodo(event);
   };
 
-  handleKeyDown = (event) => {
+  handleEscape = (event) => {
     this.props.cancelEditing(event);
   };
 
@@ -46,7 +46,7 @@ class TodoEditForm extends Component {
   }
 
   render () {
-    const { handleChange, handleSubmit, handleKeyDown } = this;
+    const { handleChange, handleSubmit, handleEscape } = this;
     const { title } = this.state;
     const { isEditing } = this.props;
 
@@ -57,9 +57,9 @@ class TodoEditForm extends Component {
           className={edit}
           style={isEditing ? { display: 'block' } : { display: 'none' }}
           value={title}
-          onChange={handleChange}
-          onBlur={handleSubmit}
-          onKeyDown={handleKeyDown}
+          onChange={(event) => handleChange(event)}
+          onBlur={(event) => handleSubmit(event)}
+          onKeyDown={(event) => handleEscape(event)}
         />
       </form>
     );

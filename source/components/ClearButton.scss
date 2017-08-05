@@ -1,0 +1,22 @@
+.clearCompleted {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 100%;
+  vertical-align: baseline;
+  font-family: inherit;
+  font-weight: inherit;
+  color: inherit;
+  appearance: none;
+  outline: none;
+  float: right;
+  line-height: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
